@@ -40,7 +40,7 @@ def updateCloudFormationStacksParallel(stackName, stackRegion, cfnParams) {
                             slackMessageChannel
                         )
 
-                        def gitUrl = "git://github.com/Akayrathee/cloudformation"
+                        def gitUrl = "git@github.com:Akayrathee/cloudformation.git"
                         def branchName = "master"
                         def filePath = "waf.yaml"
                         downloadFileFromGit(gitUrl, branchName, filePath)
