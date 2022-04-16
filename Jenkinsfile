@@ -21,7 +21,7 @@ def downloadFileFromGit(gitUrl, branchName, filePath) {
         passwordVariable: 'GIT_PASSWORD']]) {
 
         // Get the waf.yaml from devops repo
-        #sh "git archive --remote=${gitUrl} --format=tar ${branchName} ${filePath} | tar xf -"
+        // sh "git archive --remote=${gitUrl} --format=tar ${branchName} ${filePath} | tar xf -"
         sh "ls"
     }
 }
