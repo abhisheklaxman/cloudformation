@@ -1,3 +1,8 @@
+import groovy.transform.Field
+import groovy.json.JsonSlurperClassic
+import net.sf.json.JSONArray
+import net.sf.json.JSONObject
+
 def downloadFileFromGit(gitUrl, branchName, filePath) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding',
         credentialsId: 'githubcredentials',
