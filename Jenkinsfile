@@ -70,7 +70,7 @@ pipeline {
             steps {
                 timestamps {
                     script {
-                        dir() {
+                        
 			    def gitUrl = "https://github.com/Akayrathee/cloudformation"
                             def branchName = "master"
                             def filePath = "config.yaml"                
@@ -103,7 +103,7 @@ pipeline {
                             if (!allCfnUpdateSuccessful) {
                                 error("One or more stackUpdation failed; Please check the log for more information.")
                             }
-                        }
+                        
                     }
                 }
             }
