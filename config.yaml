@@ -9,7 +9,7 @@ wafV2Config:
     requestThreshold: 500
     albArn: "arn:aws:elasticloadbalancing:us-east-2:205631354229:loadbalancer/app/newloadbalancer/8608a48e005cb977"
     region: "us-east-2"
-    rateLimitRuleAction: "Count"
+    rateLimitRuleAction: "Block"
     activateHttpFloodProtectionParam: "yes"
 
 
