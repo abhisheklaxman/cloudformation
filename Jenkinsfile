@@ -70,8 +70,11 @@ pipeline {
             steps {
                 timestamps {
                     script {
-                        dir() {                
-                            def datas = readYaml file: 'cloudformation/config.yaml'
+                        dir() {
+			    def gitUrl = "https://github.com/Akayrathee/cloudformation"
+                            def branchName = "master"
+                            def filePath = "config.yaml"                
+                            def datas = readYaml file: 'config.yaml'
 
                             cfnUpdateTasks = [:]
                             allCfnUpdateSuccessful = true
