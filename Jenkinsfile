@@ -45,7 +45,7 @@ def updateCloudFormationStacksParallel(stackName, stackRegion, cfnParams) {
                         def filePath = "waf.yaml"
                         downloadFileFromGit(gitUrl, branchName, filePath)
                         def waf = readYaml file: 'waf.yaml'
-                        
+                        echo "We are here"
                         
                         withAWS(credentials: 'aakashawscredntials', region: stackRegion){
                             def outputs = cfnUpdate(
