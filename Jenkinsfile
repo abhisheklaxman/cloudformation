@@ -54,7 +54,7 @@ def updateCloudFormationStacksParallel(stackName, stackRegion, cfnParams) {
                                 pollInterval:10000
                             )
                             print(outputs)
-                    }
+                    }}
                     catch(error) {
                         allCfnUpdateSuccessful = false
                         // Alert to slack about failure
