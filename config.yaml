@@ -5,7 +5,7 @@ wafV2Config:
     region: "us-east-1"
     rateLimitRuleAction: "Count"
     activateHttpFloodProtectionParam: "yes"
- - stackName: "TestStack2"
+  - stackName: "TestStack2"
     requestThreshold: 500
     albArn: "arn:aws:elasticloadbalancing:us-east-2:205631354229:loadbalancer/app/newloadbalancer/8608a48e005cb977"
     region: "us-east-2"
