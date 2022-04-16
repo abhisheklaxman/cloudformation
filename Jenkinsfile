@@ -4,6 +4,7 @@ import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
 // other parameters which is not required
+@Field def buildRootDir = "AakashCode"
 @Field def slackMessageChannel = "#cloud-deployments"
 
 // waf params
