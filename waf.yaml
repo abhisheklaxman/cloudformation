@@ -1,0 +1,185 @@
+# Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS WAF ACL template: This AWS CloudFormation template helps you provision 
+  a WebACL with a RateLimitBased
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Protection List
+        Parameters:
+          - ActivateHttpFloodProtectionParam
+
+      - Label:
+          default: Settings
+        Parameters:
+          - EndpointType
+
+      - Label:
+          default: Advanced Settings
+        Parameters:
+          - RequestThreshold
+          - RateLimitRuleAction
+          - AssociatedResourceArn
+
+    ParameterLabels:
+
+      ActivateHttpFloodProtectionParam:
+        default: Activate HTTP Flood Protection
+
+      EndpointType:
+        default: Endpoint Type
+
+      RequestThreshold:
+        default: Request Threshold
+
+      AssociatedResourceArn: 
+        default: Associated Resource Arn
+
+      RateLimitRuleAction:
+        default: RateLimit Rule Action
+
+Parameters:
+
+  ActivateHttpFloodProtectionParam:
+    Type: String
+    Default: 'no'
+    AllowedValues:
+      - 'yes'
+      - 'no'
+    Description: Choose yes to enable the component designed to block HTTP flood attacks.
+
+  RateLimitRuleAction:
+    Type: String
+    Default: 'Count'
+    AllowedValues:
+      - 'Count'
+      - 'Block'
+    Description: Select the action on triggering the rate limit based rule.
+
+  EndpointType:
+    Type: String
+    Default: 'ALB'
+    AllowedValues:
+      - 'CloudFront'
+      - 'ALB'
+    Description: Select the type of resource being used.
+
+  AssociatedResourceArn:
+    Type: String
+    Default: 'None'
+    Description: Provide Arn of the resources to be associated to ACL
+
+  RequestThreshold:
+    Type: Number
+    Default: 5000
+    MinValue: 0
+    Description:  >-
+      If you chose yes for the Activate HTTP Flood Protection parameter, enter the maximum
+      acceptable requests per FIVE-minute period per IP address. Please note that AWS WAF rate
+      based rule requires values greater than 100 (if you chose Lambda/Athena log parser options,
+      you can use any value greater than zero). If you chose to deactivate this protection, ignore
+      this parameter.
+
+
+Conditions:
+
+  HttpFloodProtectionRateBasedRuleActivated: !Equals
+    - !Ref ActivateHttpFloodProtectionParam
+    - 'yes'
+
+  AlbEndpoint: !Equals
+    - !Ref EndpointType
+    - 'ALB'
+
+  CloudFrontEndpoint: !Equals
+    - !Ref EndpointType
+    - 'CloudFront'
+
+  AssociatedResourceProvided: 
+    !Not [!Equals [!Ref AssociatedResourceArn, None]]
+
+  RateLimitRuleCountEnabled: !Equals
+    - !Ref RateLimitRuleAction
+    - 'Count'
+
+Mappings:
+    ACLScope:
+        ALB: 
+            Value: 'REGIONAL'
+        CloudFront:
+            Value: 'CLOUDFRONT'
+
+Resources:
+  # WAF ACL with 'Rate limit rule'
+  WAFWebACL:
+    Type: 'AWS::WAFv2::WebACL'
+    Condition: HttpFloodProtectionRateBasedRuleActivated
+    Properties:
+      Name: !Join ['-', [!Ref 'AWS::StackName', WebACL, !Ref 'AWS::Region']]
+      Scope: !FindInMap ["ACLScope", !Ref EndpointType, "Value"]
+      Description: WebACL created with cloudformation template
+      DefaultAction:
+        Allow: {}
+      CustomResponseBodies:
+        RateLimitedResponse:
+          ContentType: APPLICATION_JSON
+          Content: '{"message": "Too Many Requests! Rate-limited by WAF."}'
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: !Join ['-', [!Ref 'AWS::StackName', WebACL, !Ref 'AWS::Region', DefaultRule]]
+      Rules:
+        - Name: RateLimitRule
+          Priority: 0
+          Action:
+            !If
+              - RateLimitRuleCountEnabled
+              - Count: {}
+              -
+                Block:
+                  CustomResponse:
+                    ResponseCode: 429
+                    CustomResponseBodyKey: RateLimitedResponse
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: !Join ['-', [!Ref 'AWS::StackName', WebACL, !Ref 'AWS::Region', RateBasedRule]]
+          Statement:
+            RateBasedStatement:
+              Limit: !Ref RequestThreshold
+              AggregateKeyType: IP
+  
+  WebACLAssociation:
+    Condition: AssociatedResourceProvided
+    Type: 'AWS::WAFv2::WebACLAssociation'
+    DependsOn: WAFWebACL
+    Properties:
+      WebACLArn: 
+        Fn::GetAtt: WAFWebACL.Arn
+      ResourceArn: !Ref AssociatedResourceArn 
+
+
+Outputs:
+
+  # WAFWebACL:
+  #   Description: AWS WAF WebACL ID
+  #   Value: !GetAtt AlbStack.Outputs.WAFWebACL
+
+  SolutionVersion:
+    Description: Solution Version Number
+    Value: "v2.3.3"
