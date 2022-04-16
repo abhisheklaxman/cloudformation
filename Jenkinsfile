@@ -71,7 +71,7 @@ pipeline {
                 timestamps {
                     script {
                         
-			    def gitUrl = "https://github.com/Akayrathee/cloudformation"
+			    def gitUrl = "git@github.com:Akayrathee/cloudformation.git"
                             def branchName = "master"
                             def filePath = "config.yaml"                
                             def datas = readYaml file: 'config.yaml'
