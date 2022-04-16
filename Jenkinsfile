@@ -3,12 +3,8 @@ import groovy.json.JsonSlurperClassic
 import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
-
-@Field def buildRootDir = "DevOpsCode"
-@Field def shoonyaPipelineUser = "shoonya_cloud_pipeline_user"
-@Field def cfnUpdateTasks = [:]
-@Field def allCfnUpdateSuccessful = true
-@Field def slackMessageChannel = "#cloud-deployments"
+// waf params
+@Field def wafEndpointType = "ALB"
 
 def sendSlackMessage(titleText, messageText, messageColor, channelName){
     echo "Message Sent"	
