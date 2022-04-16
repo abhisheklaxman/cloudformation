@@ -3,6 +3,9 @@ import groovy.json.JsonSlurperClassic
 import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
+// other parameters which is not required
+@Field def slackMessageChannel = "#cloud-deployments"
+
 // waf params
 @Field def wafEndpointType = "ALB"
 
