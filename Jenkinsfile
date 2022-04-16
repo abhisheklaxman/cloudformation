@@ -79,6 +79,7 @@ pipeline {
                             cfnUpdateTasks = [:]
                             allCfnUpdateSuccessful = true
 
+                            echo "Data : ${datas}"
                             for(data in datas.wafV2Config) {
                                 echo "Updating WAF-${data.stackName} ..."
 
