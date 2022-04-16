@@ -70,8 +70,8 @@ pipeline {
             steps {
                 timestamps {
                     script {
-                        dir(buildRootDir) {                
-                            def datas = readYaml file: 'config.yaml'
+                        dir() {                
+                            def datas = readYaml file: 'cloudformation/config.yaml'
 
                             cfnUpdateTasks = [:]
                             allCfnUpdateSuccessful = true
