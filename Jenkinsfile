@@ -22,7 +22,7 @@ def downloadFileFromGit(gitUrl, branchName, filePath) {
 
         // Get the waf.yaml from devops repo
         //sh "git archive --remote=${gitUrl} --format=tar ${branchName} ${filePath} | tar xf -"
-        sh "svm export https://github.com/Akayrathee/cloudformation/trunk AakashCode"
+        sh "svn export https://github.com/Akayrathee/cloudformation/trunk AakashCode"
         sh "ls"
     }
 }
