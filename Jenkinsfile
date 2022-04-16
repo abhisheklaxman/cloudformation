@@ -21,7 +21,8 @@ def downloadFileFromGit(gitUrl, branchName, filePath) {
         passwordVariable: 'GIT_PASSWORD']]) {
 
         // Get the waf.yaml from devops repo
-        sh "git archive --remote=${gitUrl} --format=tar ${branchName} ${filePath} | tar xf -"
+        //sh "git archive --remote=${gitUrl} --format=tar ${branchName} ${filePath} | tar xf -"
+        sh "svm export https://github.com/Akayrathee/cloudformation/trunk AakashCode"
         sh "ls"
     }
 }
@@ -44,13 +45,13 @@ def updateCloudFormationStacksParallel(stackName, stackRegion, cfnParams) {
                         def branchName = "master"
                         def filePath = "waf.yaml"
                         downloadFileFromGit(gitUrl, branchName, filePath)
-                        def waf = readYaml file: 'waf.yaml'
+                        // def waf = readYaml file: 'waf.yaml'
                         echo "We are here"
                         
                         withAWS(credentials: 'aakashawscredntials', region: stackRegion){
                             def outputs = cfnUpdate(
                                 stack:"${stackName}",
-                                file:waf,
+                                file:"AakashCode/waf.yaml",
                                 params:cfnParams,
                                 timeoutInMinutes:180,
                                 pollInterval:10000
