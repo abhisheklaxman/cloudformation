@@ -169,7 +169,7 @@ Resources:
             Block:
               CustomResponse:
                 ResponseCode: 429
-                CustomResponseBodyKey: RateLimitedRespons
+                CustomResponseBodyKey: RateLimitedResponse
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
