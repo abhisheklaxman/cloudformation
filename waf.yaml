@@ -164,26 +164,26 @@ Resources:
               Limit: !Ref RequestThreshold
               AggregateKeyType: IP
         - Name: RuleTwo
-            Priority: 2
-            Action:
-              Block:
-                CustomResponse:
-                  ResponseCode: 429
-                  CustomResponseBodyKey: RateLimitedRespons
-            VisibilityConfig:
-              SampledRequestsEnabled: true
-              CloudWatchMetricsEnabled: true
-              MetricName: RuleTwoMetric
-            Statement:
-              ByteMatchStatement:
-                FieldToMatch:
-                  SingleHeader:
-                    Name: haystack
-                PositionalConstraint: CONTAINS
-                SearchString: python
-                TextTransformations:
-                  - Priority: 1
-                    Type: NONE  
+          Priority: 2
+          Action:
+            Block:
+              CustomResponse:
+                ResponseCode: 429
+                CustomResponseBodyKey: RateLimitedRespons
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: RuleTwoMetric
+          Statement:
+            ByteMatchStatement:
+              FieldToMatch:
+                SingleHeader:
+                  Name: haystack
+              PositionalConstraint: CONTAINS
+              SearchString: python
+              TextTransformations:
+                - Priority: 1
+                  Type: NONE  
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
