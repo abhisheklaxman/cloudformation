@@ -166,10 +166,7 @@ Resources:
         - Name: RuleTwo
           Priority: 2
           Action:
-            Block:
-              CustomResponse:
-                ResponseCode: 429
-                CustomResponseBodyKey: RateLimitedResponse
+            Count: {}
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
