@@ -205,6 +205,31 @@ Resources:
               TextTransformations:
                 - Priority: 1
                   Type: NONE
+        - Name: Rate_Limit_Ordermark
+          Priority: 4
+          Action:
+            Block:
+              CustomResponse:
+                ResponseCode: 429
+                CustomResponseBodyKey: RateLimitedResponse
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: RuleTwoMetric
+          Statement:
+	    RateBasedStatement:
+              Limit: 100
+              AggregateKeyType: IP
+              ScopeDownStatement:
+                ByteMatchStatement
+                FieldToMatch:
+                  SingleHeader:
+                  Name: host
+                PositionalConstraint: CONTAINS
+                SearchString : ordermark-api.esper.cloud
+                TextTransformations:
+                  - Priority: 0
+                    Type: NONE
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
