@@ -221,23 +221,12 @@ Resources:
                 Limit: 100
                 AggregateKeyType: IP
                 ScopeDownStatement:
-                  AndStatement:
-                    Statements:
                       - ByteMatchStatement:
                           FieldToMatch:
                             SingleHeader:
                               Name: host
                           PositionalConstraint: CONTAINS
                           SearchString : "ordermark-api.esper.cloud"
-                          TextTransformations:
-                            - Priority: 0
-                              Type: NONE
-                      - ByteMatchStatement:
-                          FieldToMatch:
-                            SingleHeader:
-                              Name: user-agent
-                          PositionalConstraint: CONTAINS
-                          SearchString : "python"
                           TextTransformations:
                             - Priority: 0
                               Type: NONE
