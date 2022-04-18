@@ -215,21 +215,21 @@ Resources:
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
-            MetricName: RuleTwoMetric
+            MetricName: Rate_Limit_Ordermark
           Statement:
 	    RateBasedStatement:
               Limit: 100
               AggregateKeyType: IP
               ScopeDownStatement:
                 ByteMatchStatement
-                FieldToMatch:
-                  SingleHeader:
-                  Name: host
-                PositionalConstraint: CONTAINS
-                SearchString : ordermark-api.esper.cloud
-                TextTransformations:
-                  - Priority: 0
-                    Type: NONE
+                  FieldToMatch:
+                    SingleHeader:
+                    Name: host
+                  PositionalConstraint: CONTAINS
+                  SearchString : ordermark-api.esper.cloud
+                  TextTransformations:
+                    - Priority: 0
+                      Type: NONE
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
