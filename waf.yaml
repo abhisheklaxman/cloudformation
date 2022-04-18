@@ -220,7 +220,7 @@ Resources:
             RateBasedStatement:
               Limit: 100
               AggregateKeyType: IP
-              ScopeDownStatement:
+              ScopeDownStatements:
                 - ByteMatchStatement:
                     FieldToMatch:
                       SingleHeader:
@@ -230,7 +230,6 @@ Resources:
                     TextTransformations:
                       - Priority: 0
                         Type: NONE
-              ScopeDownStatement:
                 - ByteMatchStatement:
                     FieldToMatch:
                       SingleHeader:
