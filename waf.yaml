@@ -217,30 +217,30 @@ Resources:
             CloudWatchMetricsEnabled: true
             MetricName: Rate_Limit_Ordermark
           Statement:
-            AndStatement:
-              Statements:
                 - RateBasedStatement:
                     Limit: 100
                     AggregateKeyType: IP
                     ScopeDownStatement:
-                      ByteMatchStatement:
-                        FieldToMatch:
-                          SingleHeader:
-                            Name: host
-                        PositionalConstraint: CONTAINS
-                        SearchString : ordermark-api.esper.cloud
-                        TextTransformations:
-                          - Priority: 0
-                            Type: NONE
-                - ByteMatchStatement:
-                    FieldToMatch:
-                      SingleHeader:
-                        Name: user-agent
-                    PositionalConstraint: CONTAINS
-                    SearchString : python
-                    TextTransformations:
-                      - Priority: 0
-                        Type: NONE
+                      AndStatement:
+                        Statements:
+                          - ByteMatchStatement:
+                              FieldToMatch:
+                                SingleHeader:
+                                  Name: host
+                              PositionalConstraint: CONTAINS
+                              SearchString : ordermark-api.esper.cloud
+                              TextTransformations:
+                                - Priority: 0
+                                  Type: NONE
+                         - ByteMatchStatement:
+                             FieldToMatch:
+                               SingleHeader:
+                                 Name: user-agent
+                             PositionalConstraint: CONTAINS
+                             SearchString : python
+                             TextTransformations:
+                               - Priority: 0
+                                 Type: NONE
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
