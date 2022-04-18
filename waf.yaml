@@ -221,7 +221,7 @@ Resources:
               Limit: 100
               AggregateKeyType: IP
               ScopeDownStatement:
-                ByteMatchStatement
+                ByteMatchStatement:
                   FieldToMatch:
                     SingleHeader:
                     Name: host
