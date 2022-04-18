@@ -224,7 +224,7 @@ Resources:
                 ByteMatchStatement:
                   FieldToMatch:
                     SingleHeader:
-                    Name: host
+                      Name: host
                   PositionalConstraint: CONTAINS
                   SearchString : ordermark-api.esper.cloud
                   TextTransformations:
