@@ -228,7 +228,7 @@ Resources:
                             SingleHeader:
                               Name: host
                           PositionalConstraint: CONTAINS
-                          SearchString : ordermark-api.esper.cloud
+                          SearchString : "ordermark-api.esper.cloud"
                           TextTransformations:
                             - Priority: 0
                               Type: NONE
@@ -237,7 +237,7 @@ Resources:
                             SingleHeader:
                               Name: user-agent
                           PositionalConstraint: CONTAINS
-                          SearchString : python
+                          SearchString : "python"
                           TextTransformations:
                             - Priority: 0
                               Type: NONE
