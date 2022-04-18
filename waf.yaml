@@ -217,7 +217,7 @@ Resources:
             CloudWatchMetricsEnabled: true
             MetricName: Rate_Limit_Ordermark
           Statement:
-	    RateBasedStatement:
+            RateBasedStatement:
               Limit: 100
               AggregateKeyType: IP
               ScopeDownStatement:
