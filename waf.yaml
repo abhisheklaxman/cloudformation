@@ -216,7 +216,7 @@ Resources:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
             MetricName: Rate_Limit_Ordermark
-          Statement:
+          Statements:
             - RateBasedStatement:
                 Limit: 100
                 AggregateKeyType: IP
@@ -231,16 +231,19 @@ Resources:
                       - Priority: 0
                         Type: NONE
             - AndStatement:
-                ScopeDownStatement:
-                  ByteMatchStatement:
-                    FieldToMatch:
-                      SingleHeader:
-                        Name: user-agent
-                    PositionalConstraint: CONTAINS
-                    SearchString : python
-                    TextTransformations:
-                      - Priority: 0
-                        Type: NONE
+                RateBasedStatement:
+                  Limit: 100
+                  AggregateKeyType: IP
+                  ScopeDownStatement:
+                    ByteMatchStatement:
+                      FieldToMatch:
+                        SingleHeader:
+                          Name: user-agent
+                      PositionalConstraint: CONTAINS
+                      SearchString : python
+                      TextTransformations:
+                        - Priority: 0
+                          Type: NONE
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
