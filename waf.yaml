@@ -220,8 +220,8 @@ Resources:
             RateBasedStatement:
               Limit: 100
               AggregateKeyType: IP
-              - ScopeDownStatement:
-                  ByteMatchStatement:
+              ScopeDownStatement:
+                - ByteMatchStatement:
                     FieldToMatch:
                       SingleHeader:
                         Name: host
@@ -230,8 +230,8 @@ Resources:
                     TextTransformations:
                       - Priority: 0
                         Type: NONE
-              - ScopeDownStatement:
-                  ByteMatchStatement:
+              ScopeDownStatement:
+                - ByteMatchStatement:
                     FieldToMatch:
                       SingleHeader:
                         Name: host
