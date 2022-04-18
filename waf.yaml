@@ -164,7 +164,7 @@ Resources:
               Limit: !Ref RequestThreshold
               AggregateKeyType: IP
         - Name: RuleTwo
-          Priority: 2
+          Priority: 1
           Action:
             Block:
               CustomResponse:
@@ -185,7 +185,7 @@ Resources:
                 - Priority: 1
                   Type: NONE
         - Name: RuleThree
-          Priority: 3
+          Priority: 2
           Action:
             Count:{}
           VisibilityConfig:
@@ -199,8 +199,8 @@ Resources:
               PositionalConstraint: CONTAINS
               SearchString: RegionOne
               TextTransformations:
-                - Priority: 0
-                  Type: HTML_ENTITY_DECODE
+                - Priority: 1
+                  Type: NONE
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
