@@ -217,7 +217,7 @@ Resources:
             CloudWatchMetricsEnabled: true
             MetricName: Rate_Limit_Ordermark
           Statement:
-            AndStement:
+            AndStatement:
               Statements:
                 - RateBasedStatement:
                     Limit: 100
