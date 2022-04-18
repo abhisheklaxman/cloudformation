@@ -216,20 +216,30 @@ Resources:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
             MetricName: Rate_Limit_Ordermark
-          Statement:
+          Statements:
             RateBasedStatement:
               Limit: 100
               AggregateKeyType: IP
-              ScopeDownStatement:
-                ByteMatchStatement:
-                  FieldToMatch:
-                    SingleHeader:
-                      Name: host
-                  PositionalConstraint: CONTAINS
-                  SearchString : ordermark-api.esper.cloud
-                  TextTransformations:
-                    - Priority: 0
-                      Type: NONE
+              - ScopeDownStatement:
+                  ByteMatchStatement:
+                    FieldToMatch:
+                      SingleHeader:
+                        Name: host
+                    PositionalConstraint: CONTAINS
+                    SearchString : ordermark-api.esper.cloud
+                    TextTransformations:
+                      - Priority: 0
+                        Type: NONE
+              - ScopeDownStatement:
+                  ByteMatchStatement:
+                    FieldToMatch:
+                      SingleHeader:
+                        Name: host
+                    PositionalConstraint: CONTAINS
+                    SearchString : ordermark-api.esper.cloud
+                    TextTransformations:
+                      - Priority: 0
+                        Type: NONE
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
