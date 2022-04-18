@@ -234,8 +234,8 @@ Resources:
                 ScopeDownStatements:
                   ByteMatchStatement:
                     FieldToMatch:
-                    SingleHeader:
-                      Name: user-agent
+                      SingleHeader:
+                        Name: user-agent
                     PositionalConstraint: CONTAINS
                     SearchString : python
                     TextTransformations:
