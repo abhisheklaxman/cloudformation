@@ -251,7 +251,7 @@ Resources:
     Condition: HttpFloodProtectionRateBasedRuleActivated
     Condition: CreateRuleForNcal1
     Properties:
-      Name: !Join ['-', [!Ref 'AWS::StackName', WebACL, !Ref 'AWS::Region']]
+      Name: !Join ['-', [!Ref 'AWS::StackName', WebACL2, !Ref 'AWS::Region']]
       Scope: !FindInMap ["ACLScope", !Ref EndpointType, "Value"]
       Description: WebACL created with cloudformation template
       DefaultAction:
