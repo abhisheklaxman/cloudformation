@@ -118,7 +118,7 @@ Conditions:
     - 'Count'
 
   CreateRuleForNcal1: !Equals 
-  - !Ref AWS::StackName 
+  - !Ref stackName 
   - 'TestStack2'
 
 
