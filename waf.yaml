@@ -228,7 +228,7 @@ Resources:
                 ScopeDownStatement:
                   AndStatement:
                      Statements:
-                       - ByteMatchStatement:
+                       - ByteMatchStatement    
                            FieldToMatch:
                              SingleHeader:
                                Name: host
@@ -246,16 +246,7 @@ Resources:
                            TextTransformations:
                              - Priority: 0
                                Type: NONE
-  WebACLAssociation:
-    Condition: AssociatedResourceProvided
-    Type: 'AWS::WAFv2::WebACLAssociation'
-    DependsOn: WAFWebACL
-    Properties:
-      WebACLArn: 
-        Fn::GetAtt: WAFWebACL.Arn
-      ResourceArn: !Ref AssociatedResourceArn 
-
-  WAFWebACL:
+  WAFWebACLNcal:
     Type: 'AWS::WAFv2::WebACL'
     Condition: HttpFloodProtectionRateBasedRuleActivated
     Condition: CreateRuleForNcal1
@@ -274,8 +265,8 @@ Resources:
         CloudWatchMetricsEnabled: true
         MetricName: !Join ['-', [!Ref 'AWS::StackName', WebACL, !Ref 'AWS::Region', DefaultRule]]
       Rules:
-        - Name: RateLimitRule
-          Priority: 0
+        - Name: RateLimitRule2
+          Priority: 5
           Action:
             !If
               - RateLimitRuleCountEnabled
@@ -293,13 +284,13 @@ Resources:
             RateBasedStatement:
               Limit: !Ref RequestThreshold
               AggregateKeyType: IP
-  
+
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
     DependsOn: WAFWebACL
     Properties:
-      WebACLArn:
+      WebACLArn: 
         Fn::GetAtt: WAFWebACL.Arn
       ResourceArn: !Ref AssociatedResourceArn
  
