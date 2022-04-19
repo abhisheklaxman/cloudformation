@@ -228,7 +228,7 @@ Resources:
                 ScopeDownStatement:
                   AndStatement:
                      Statements:
-                       - ByteMatchStatement    
+                       - ByteMatchStatement:    
                            FieldToMatch:
                              SingleHeader:
                                Name: host
@@ -246,7 +246,45 @@ Resources:
                            TextTransformations:
                              - Priority: 0
                                Type: NONE
-                               
+  WAFWebACLNcal:
+    Type: 'AWS::WAFv2::WebACL'
+    Condition: HttpFloodProtectionRateBasedRuleActivated
+    Condition: CreateRuleForNcal1
+    Properties:
+      Name: !Join ['-', [!Ref 'AWS::StackName', WebACL, !Ref 'AWS::Region']]
+      Scope: !FindInMap ["ACLScope", !Ref EndpointType, "Value"]
+      Description: WebACL created with cloudformation template
+      DefaultAction:
+        Allow: {}
+      CustomResponseBodies:
+        RateLimitedResponse:
+          ContentType: APPLICATION_JSON
+          Content: '{"message": "Too Many Requests! Rate-limited by WAF."}'
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: !Join ['-', [!Ref 'AWS::StackName', WebACL, !Ref 'AWS::Region', DefaultRule]]
+      Rules:
+        - Name: RateLimitRule2
+          Priority: 5
+          Action:
+            !If
+              - RateLimitRuleCountEnabled
+              - Count: {}
+              -
+                Block:
+                  CustomResponse:
+                    ResponseCode: 429
+                    CustomResponseBodyKey: RateLimitedResponse
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: !Join ['-', [!Ref 'AWS::StackName', WebACL, !Ref 'AWS::Region', RateBasedRule]]
+          Statement:
+            RateBasedStatement:
+              Limit: !Ref RequestThreshold
+              AggregateKeyType: IP
+
   WebACLAssociation:
     Condition: AssociatedResourceProvided
     Type: 'AWS::WAFv2::WebACLAssociation'
