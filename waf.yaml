@@ -250,7 +250,6 @@ Resources:
     Type: 'AWS::WAFv2::WebACL'
     Condition: HttpFloodProtectionRateBasedRuleActivated
     Condition: CreateRuleForNcal1
-    echo ${!Ref 'AWS::StackName'}
     Properties:
       Name: !Join ['-', [!Ref 'AWS::StackName', WebACL2, !Ref 'AWS::Region']]
       Scope: !FindInMap ["ACLScope", !Ref EndpointType, "Value"]
