@@ -119,7 +119,7 @@ Conditions:
 
   CreateRuleForNcal1: !Equals 
   - !Ref 'AWS::StackName'
-  - 'TestStack2'
+  - 'WAF-TestStack2'
 
 
 Mappings:
