@@ -184,27 +184,27 @@ Resources:
               TextTransformations:
                 - Priority: 1
                   Type: NONE
-        - Name: RuleThree
-          Priority: 3
-          Action:
-            Block:
-              CustomResponse:
-                ResponseCode: 429
-                CustomResponseBodyKey: RateLimitedResponse
-          VisibilityConfig:
-            SampledRequestsEnabled: true
-            CloudWatchMetricsEnabled: true
-            MetricName: RuleTwoMetric
-          Statement:
-            ByteMatchStatement:
-              FieldToMatch:
-                SingleHeader:
-                  Name: haystack
-              PositionalConstraint: CONTAINS
-              SearchString: python
-              TextTransformations:
-                - Priority: 1
-                  Type: NONE
+#        - Name: RuleThree
+#          Priority: 3
+#          Action:
+#            Block:
+#              CustomResponse:
+#                ResponseCode: 429
+#                CustomResponseBodyKey: RateLimitedResponse
+#          VisibilityConfig:
+#            SampledRequestsEnabled: true
+#            CloudWatchMetricsEnabled: true
+#            MetricName: RuleTwoMetric
+#          Statement:
+#            ByteMatchStatement:
+#              FieldToMatch:
+#                SingleHeader:
+#                  Name: haystack
+#              PositionalConstraint: CONTAINS
+#              SearchString: python
+#              TextTransformations:
+#                - Priority: 1
+#                  Type: NONE
         - Name: Rate_Limit_Ordermark
           Priority: 4
           Action:
