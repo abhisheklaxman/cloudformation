@@ -211,6 +211,7 @@ Resources:
 #                - Priority: 1
 #                  Type: NONE
         - Name: Rate_Limit_Ordermark
+          Condition: CreateRuleForNcal1
           Priority: 4
           Action:
             Block:
