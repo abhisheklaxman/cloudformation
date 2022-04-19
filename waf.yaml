@@ -117,6 +117,9 @@ Conditions:
     - !Ref RateLimitRuleAction
     - 'Count'
 
+  CreateRuleForNcal1: !Equals [!Ref AWS::StackName, TestStack2]
+
+
 Mappings:
     ACLScope:
         ALB: 
@@ -206,6 +209,7 @@ Resources:
 #                - Priority: 1
 #                  Type: NONE
         - Name: Rate_Limit_Ordermark
+          Condition: CreateRuleForNcal1
           Priority: 4
           Action:
             Block:
