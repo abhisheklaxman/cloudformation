@@ -117,7 +117,9 @@ Conditions:
     - !Ref RateLimitRuleAction
     - 'Count'
 
-  CreateRuleForNcal1: !Equals [!Ref AWS::StackName, TestStack2]
+  CreateRuleForNcal1: !Equals 
+  - !Ref AWS::StackName 
+  - 'TestStack2'
 
 
 Mappings:
