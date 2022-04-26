@@ -119,7 +119,7 @@ Conditions:
 
   CreateRuleForNcal1: !Equals 
   - !Ref 'AWS::StackName'
-  - 'WAF-TestStack2'
+  - 'WAF-TestStack'
 
 
 Mappings:
@@ -168,27 +168,29 @@ Resources:
             RateBasedStatement:
               Limit: !Ref RequestThreshold
               AggregateKeyType: IP
-        - Name: RuleTwo
-          Priority: 1
-          Action:
-            Block:
-              CustomResponse:
-                ResponseCode: 429
-                CustomResponseBodyKey: RateLimitedResponse
-          VisibilityConfig:
-            SampledRequestsEnabled: true
-            CloudWatchMetricsEnabled: true
-            MetricName: RuleTwoMetric
-          Statement:
-            ByteMatchStatement:
-              FieldToMatch:
-                SingleHeader:
-                  Name: haystack
-              PositionalConstraint: CONTAINS
-              SearchString: python
-              TextTransformations:
-                - Priority: 1
-                  Type: NONE
+        !If
+          - CreateRuleForNcal1
+          - Name: IfRule
+            Priority: 6
+            Action:
+              Block:
+                CustomResponse:
+                  ResponseCode: 429
+                  CustomResponseBodyKey: RateLimitedResponse
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: Ifrule
+            Statement:
+              ByteMatchStatement:
+                FieldToMatch:
+                  SingleHeader:
+                    Name: haystack
+                PositionalConstraint: CONTAINS
+                SearchString: python
+                TextTransformations:
+                  - Priority: 1
+                    Type: NONE
 #        - Name: RuleThree
 #          Priority: 3
 #          Action:
