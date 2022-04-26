@@ -191,6 +191,7 @@ Resources:
                   TextTransformations:
                     - Priority: 1
                       Type: NONE
+            -
 #        - Name: RuleThree
 #          Priority: 3
 #          Action:
