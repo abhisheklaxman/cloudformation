@@ -191,7 +191,7 @@ Resources:
                   TextTransformations:
                     - Priority: 1
                       Type: NONE
-            - 
+            - !Ref 'AWS::NoValue'
 #        - Name: RuleThree
 #          Priority: 3
 #          Action:
