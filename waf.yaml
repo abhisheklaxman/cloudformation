@@ -119,7 +119,7 @@ Conditions:
 
   CreateRuleForNcal1: !Equals 
   - !Ref 'AWS::StackName'
-  - 'WAF-TestStack'
+  - 'WAF-TestStack1'
 
 
 Mappings:
@@ -168,30 +168,30 @@ Resources:
             RateBasedStatement:
               Limit: !Ref RequestThreshold
               AggregateKeyType: IP
-        # - !If
-        #     - CreateRuleForNcal1
-        #     - Name: IfRule
-        #       Priority: 6
-        #       Action:
-        #         Block:
-        #           CustomResponse:
-        #             ResponseCode: 429
-        #             CustomResponseBodyKey: RateLimitedResponse
-        #       VisibilityConfig:
-        #         SampledRequestsEnabled: true
-        #         CloudWatchMetricsEnabled: true
-        #         MetricName: Ifrule
-        #       Statement:
-        #         ByteMatchStatement:
-        #           FieldToMatch:
-        #             SingleHeader:
-        #               Name: haystack
-        #           PositionalConstraint: CONTAINS
-        #           SearchString: python
-        #           TextTransformations:
-        #             - Priority: 1
-        #               Type: NONE
-        #     - NONE
+        - !If
+            - CreateRuleForNcal1
+            - Name: IfRule
+              Priority: 6
+              Action:
+                Block:
+                  CustomResponse:
+                    ResponseCode: 429
+                    CustomResponseBodyKey: RateLimitedResponse
+              VisibilityConfig:
+                SampledRequestsEnabled: true
+                CloudWatchMetricsEnabled: true
+                MetricName: Ifrule
+              Statement:
+                ByteMatchStatement:
+                  FieldToMatch:
+                    SingleHeader:
+                      Name: haystack
+                  PositionalConstraint: CONTAINS
+                  SearchString: python
+                  TextTransformations:
+                    - Priority: 1
+                      Type: NONE
+            - NONE
 #        - Name: RuleThree
 #          Priority: 3
 #          Action:
