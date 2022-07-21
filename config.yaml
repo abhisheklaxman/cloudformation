@@ -11,5 +11,3 @@ wafV2Config:
   #   region: "us-east-2"
   #   rateLimitRuleAction: "Block"
   #   activateHttpFloodProtectionParam: "yes"
-
-

@@ -11,7 +11,7 @@ import net.sf.json.JSONObject
 @Field def wafEndpointType = "ALB"
 
 def sendSlackMessage(titleText, messageText, messageColor, channelName){
-    echo "Message Sent"	
+    echo "Message Sent"
 }
 
 def downloadFileFromGit(gitUrl, branchName, filePath) {
@@ -30,7 +30,7 @@ def downloadFileFromGit(gitUrl, branchName, filePath) {
 def updateCloudFormationStacksParallel(stackName, stackRegion, cfnParams) {
     cfnUpdateTasks["${stackName}"] = {
         node {
-  
+
             stage("${stackName}") {
                 script {
                     try {
@@ -47,7 +47,7 @@ def updateCloudFormationStacksParallel(stackName, stackRegion, cfnParams) {
                         downloadFileFromGit(gitUrl, branchName, filePath)
                         // def waf = readYaml file: 'waf.yaml'
                         echo "We are here"
-                        
+
                         withAWS(credentials: 'aakashawscredntials', region: stackRegion){
                             def outputs = cfnUpdate(
                                 stack:"${stackName}",
@@ -76,17 +76,17 @@ def updateCloudFormationStacksParallel(stackName, stackRegion, cfnParams) {
 }
 
 pipeline {
-    agent any 
+    agent any
 
     stages {
         stage("EB configuration check") {
             steps {
                 timestamps {
                     script {
-                        
+
 			    def gitUrl = "git@github.com:Akayrathee/cloudformation.git"
                             def branchName = "master"
-                            def filePath = "config.yaml"                
+                            def filePath = "config.yaml"
                             def datas = readYaml file: 'config.yaml'
 
                             cfnUpdateTasks = [:]
@@ -117,7 +117,7 @@ pipeline {
                             if (!allCfnUpdateSuccessful) {
                                 error("One or more stackUpdation failed; Please check the log for more information.")
                             }
-                        
+
                     }
                 }
             }

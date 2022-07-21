@@ -13,7 +13,7 @@
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  AWS WAF ACL template: This AWS CloudFormation template helps you provision 
+  AWS WAF ACL template: This AWS CloudFormation template helps you provision
   a WebACL with a RateLimitBased
 
 Metadata:
@@ -47,7 +47,7 @@ Metadata:
       RequestThreshold:
         default: Request Threshold
 
-      AssociatedResourceArn: 
+      AssociatedResourceArn:
         default: Associated Resource Arn
 
       RateLimitRuleAction:
@@ -110,21 +110,21 @@ Conditions:
     - !Ref EndpointType
     - 'CloudFront'
 
-  AssociatedResourceProvided: 
+  AssociatedResourceProvided:
     !Not [!Equals [!Ref AssociatedResourceArn, None]]
 
   RateLimitRuleCountEnabled: !Equals
     - !Ref RateLimitRuleAction
     - 'Count'
 
-  CreateRuleForNcal1: !Equals 
+  CreateRuleForNcal1: !Equals
   - !Ref 'AWS::StackName'
   - 'WAF-TestStack'
 
 
 Mappings:
     ACLScope:
-        ALB: 
+        ALB:
             Value: 'REGIONAL'
         CloudFront:
             Value: 'CLOUDFRONT'
@@ -231,7 +231,7 @@ Resources:
                 ScopeDownStatement:
                   AndStatement:
                      Statements:
-                       - ByteMatchStatement:    
+                       - ByteMatchStatement:
                            FieldToMatch:
                              SingleHeader:
                                Name: host
@@ -293,10 +293,10 @@ Resources:
     Type: 'AWS::WAFv2::WebACLAssociation'
     DependsOn: WAFWebACL
     Properties:
-      WebACLArn: 
+      WebACLArn:
         Fn::GetAtt: WAFWebACL.Arn
       ResourceArn: !Ref AssociatedResourceArn
- 
+
 Outputs:
 
   # WAFWebACL:
